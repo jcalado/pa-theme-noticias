@@ -30,7 +30,7 @@
         </div>
     @endif
 
-    @if(comments_open()) 
+    <!-- @if(comments_open()) 
         {!! comments_template() !!}
-    @endif
+    @endif -->
 </footer>
