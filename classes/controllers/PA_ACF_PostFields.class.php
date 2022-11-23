@@ -4,6 +4,7 @@ use WordPlate\Acf\Fields\Number;
 use WordPlate\Acf\Fields\Oembed;
 use WordPlate\Acf\Fields\Text;
 use WordPlate\Acf\Location;
+use WordPlate\Acf\Fields\File;
 
 class PaAcfPostFields {
 
@@ -12,18 +13,18 @@ class PaAcfPostFields {
     }
 
     function createACFFields() {
+        // ACF fields pra formato de áudio e video
         register_extended_field_group([
-            'title' => __('Video info','iasd'),
+            'title' => __('Áudio ou Video info','iasd'),
             'style' => 'default',
             'fields' => [
-                Oembed::make(__('Video','iasd'), 'video_url')
-                    ->required(),
-                Number::make(__('Lenght','iasd'), 'video_length')
+                Oembed::make(__('Áudio ou video','iasd'), 'embed_url'),
+                Number::make(__('Lenght','iasd'), 'embed_length')
                     ->instructions(__('It will be obtained when saving the post.','iasd'))
                     ->readOnly(),
             ],
             'location' => [
-                Location::if('post_taxonomy', 'xtt-pa-format:video'),
+                Location::if('post_type', 'post'),
             ]
         ]);
 

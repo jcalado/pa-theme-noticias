@@ -1,0 +1,11 @@
+#editor{
+  .edit-post-layout__metaboxes{
+    .postbox.acf-postbox.show{
+      display: block !important;
+    }
+
+    .postbox.acf-postbox.hidden{
+      display: none !important;
+    }
+  }
+}

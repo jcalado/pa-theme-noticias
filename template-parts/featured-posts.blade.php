@@ -5,7 +5,7 @@
     $items = array_slice(get_field("featured_items")['data'], 0, $count);
 
     $items = array_column($items, 'id');
-    
+
     $exclude = $items;
 @endphp
 
@@ -19,7 +19,7 @@
                     <div class="col-md-4">
                 @endif
             @endif
-            
+
             <div class="col-md-{{ count($items) == 1 || count($items) == 3 ? '12' : '6' }}">
                 @php
                     $class = '';
@@ -32,7 +32,7 @@
                         $class = ' mb-3 pb-md-3 mb-md-4';
                 @endphp
 
-                <div class="pa-blog-itens{{ $class }}">    
+                <div class="pa-blog-itens{{ $class }}">
                     <div class="pa-blog-feature">
                         <a href="{{ get_the_permalink($item) }}" title="{{ get_the_title($item) }}">
                             <div class="ratio {{ count($items) == 1 ? 'ratio-591x244' : 'ratio-16x9' }}">
@@ -41,9 +41,18 @@
 
                                     <figcaption class="figure-caption position-absolute w-100 p-3 rounded-bottom">
                                         @notempty(getPostFormat($item))
-                                            <span class="pa-tag rounded-1 text-uppercase mb-2 d-table-cell px-2">{{ getPostFormat($item)->name }}</span>
+
+                                            @if (sanitize_title(getPostFormat($item)->name) == 'video')
+                                                <span class="pa-tag-icon d-inline-block pag-tag-icon-video"><i class="fas fa-play"></i></span>
+                                            @endif
+
+                                            @if (sanitize_title(getPostFormat($item)->name) == 'audio')
+                                                <span class="pa-tag-icon d-inline-block pag-tag-icon-audio"><i class="fas fa-headphones-alt"></i></span>
+                                            @endif
+
+                                            <span class="pa-tag rounded-1 text-uppercase mb-2 d-inline-block px-2">{{ getPostFormat($item)->name }}</span>
                                         @endnotempty
-                                        
+
                                         <h3 class="h5 pt-2 pa-truncate-2">{!! get_the_title($item) !!}</h3>
                                     </figcaption>
                                 </figure>

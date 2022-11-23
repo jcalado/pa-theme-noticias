@@ -42,6 +42,7 @@ add_action('wp_loaded', function () {
     unregister_taxonomy_for_object_type('xtt-pa-kits', 'post');
     unregister_taxonomy_for_object_type('post_tag', 'post');
     unregister_taxonomy_for_object_type('category', 'post');
+    unregister_taxonomy_for_object_type('xtt-pa-materiais', 'post');
 });
 
 add_filter('blade/view/paths', function ($paths) {
