@@ -1,2 +1,7 @@
-
+#editor .edit-post-layout__metaboxes .postbox.acf-postbox.show {
+  display: block !important;
+}
+#editor .edit-post-layout__metaboxes .postbox.acf-postbox.hidden {
+  display: none !important;
+}
 /*# sourceMappingURL=admin-metabox.css.map*/

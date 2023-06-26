@@ -14,7 +14,7 @@
                 @php 
                     global $exclude; 
                     $args = '_fields=featured_media_url.pa-block-render,title,excerpt,link,terms&exclude=' . implode(',', $exclude);
-                    if (!empty($sede)){
+                    if (!empty($sede) && !is_wp_error($sede)){
                         $args .= "&xtt-pa-sedes-tax=". $sede->slug;
                     }
                 @endphp

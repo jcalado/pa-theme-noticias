@@ -1,5 +1,5 @@
 @php
-    $video_url = get_field('embed_url', $post_id, true);
+    $video_url = get_field('embed_url', get_the_ID(), true);
 @endphp
 
 {{-- Se o ACF audio_url não estiver vazio executa --}}
@@ -18,7 +18,7 @@
 
 <div class="row d-flex align dark-content-bg meta-video pt-4 pb-3 mb-4">
     <div class="col-md-6 col-12">
-        @include('components.metas.author', get_the_ID())
+        @include('components.metas.author', array('id' => get_the_ID()))
     </div>
     <div class="col-md-6 col-12 post-meta-date">
         @include('components.metas.meta')

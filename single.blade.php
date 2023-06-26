@@ -3,10 +3,10 @@
 @php setup_postdata(get_post()); @endphp
 
 @php
-    $terms = get_the_terms( $post->ID, 'xtt-pa-format' );
+    $terms = get_the_terms(get_the_ID(), 'xtt-pa-format' );
     $format_slug = null;
-    if( !empty($terms) ) {
-        $term = array_shift( $terms );
+    if(!empty($terms) ) {
+        $term = array_shift($terms);
         $format_slug = $term->slug;
     }
 @endphp
@@ -18,7 +18,7 @@
                 {{-- Main --}}
                 <article class="col-12 col-md-8">
                     {{-- Post header --}}
-                    @include('template-parts.single.header', $format_slug)
+                    @include('template-parts.single.header', array('format_slug' => $format_slug))
 
                     {{-- Conteúdo do post --}}
                     <div class="pa-content">

@@ -1,9 +1,14 @@
 <footer class="mb-5">
-    @if(!empty($format = getPostFormat(get_the_ID())) && $format->slug == 'coluna' || $format->slug == 'columna' && is_singular('post'))
-        @php
+
+<?php
+    $format = getPostFormat(get_the_ID());
+    if(!empty($format)){
+        if($format->slug == 'coluna' || $format->slug == 'columna' && is_singular('post')){
             $previous = get_previous_post(true, '', 'xtt-pa-format');   
             $next = get_next_post(true, '', 'xtt-pa-format');
-        @endphp
+            
+
+?>
 
         <div class="row align-items-center">
             <div class="col col-xl-4 order-2 order-xl-1">
@@ -28,7 +33,12 @@
                 @include('components.cards.card-author', ['id' => get_the_author_meta('ID')])
             </div>
         </div>
-    @endif
+
+        <?php
+        }
+    }
+
+    ?>
 
     @if(comments_open()) 
         {!! comments_template() !!}

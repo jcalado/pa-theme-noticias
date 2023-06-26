@@ -2,9 +2,14 @@
     global $exclude;
     $count = get_field('featured_layout');
     $count = !empty($count) ? $count : 1;
-    $items = array_slice(get_field("featured_items")['data'], 0, $count);
+    $items = [];
+    $data  = get_field('featured_items');
+    
+    if(isset($data['data'])):
+        $items = array_slice($data['data'], 0, $count);
 
-    $items = array_column($items, 'id');
+        $items = array_column($items, 'id');
+    endif;
 
     $exclude = $items;
 @endphp

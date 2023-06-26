@@ -97,15 +97,16 @@ class PaRewriteRules
             $original = get_option('permalink_structure');
             if ($permalink == $original) {
                 $editorias = get_the_terms($post->ID, 'xtt-pa-editorias');
-                $editoria = $editorias[0]->slug;
                 $post_format = get_the_terms($post->ID, 'xtt-pa-format');
                 $author = get_the_author_meta('user_login', $post->post_author);
-
-                if ($post_format[0]->slug == 'coluna' || $post_format[0]->slug == 'columna') {
-                    $permalink = str_replace('/%postname%/', sanitize_title(__('columns-slug','iasd')) . '/' . $author . '/%postname%/', $permalink);
+                
+                if(!empty($post_format)){
+                    if ($post_format[0]->slug == 'coluna' || $post_format[0]->slug == 'columna') {
+                        $permalink = str_replace('/%postname%/', sanitize_title(__('columns-slug','iasd')) . '/' . $author . '/%postname%/', $permalink);
+                    }
                 } else {
-                    if ($editoria) {
-                        $permalink = str_replace('/%postname%/', sanitize_title(__('news-slug','iasd')) . '/' . $editoria . '/%postname%/', $permalink);
+                    if (!empty($editorias)) {
+                        $permalink = str_replace('/%postname%/', sanitize_title(__('news-slug','iasd')) . '/' .  $editorias[0]->slug . '/%postname%/', $permalink);
                     }
                 }
             }

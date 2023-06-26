@@ -8,7 +8,7 @@ class AdminMetabox {
         window.onload=()=> {
             this.metaBox            = document.querySelector('[data-name="embed_url"]').parentElement.parentElement;
             this.visibility         = {'hidden': 'postbox acf-postbox hidden', 'visible':'postbox acf-postbox show'};
-            this.terms              = ['Áudio', 'Vídeo'];
+            this.terms              = ['Áudio', 'Audio', 'Vídeo', 'Video'];
             this.taxonomyName       = 'xtt-pa-format';
             this.needsValidation    = false;
 

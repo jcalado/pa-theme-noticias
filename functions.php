@@ -22,6 +22,7 @@ require_once(dirname(__FILE__) . '/classes/controllers/PA_RewriteRules.class.php
 require_once(dirname(__FILE__) . '/classes/controllers/PA_Util.class.php');
 require_once(dirname(__FILE__) . '/classes/controllers/PA_wp_rest_columnists_controller.class.php');
 require_once(dirname(__FILE__) . '/classes/PA_Helpers.php');
+require_once(dirname(__FILE__) . '/classes/PA_Theme_Handler.php');
 
 add_action('after_setup_theme', array( 'ACF_To_REST_API', 'init' ) );
 
@@ -71,10 +72,16 @@ add_filter('template_include', function ($template) {
  * Filter save post to get video length
  */
 add_action('acf/save_post', function ($post_id) {
-    if (get_post_type($post_id) != 'post')
+
+    $terms = get_the_terms(get_the_ID(), 'xtt-pa-format' );
+
+    if(empty($terms))
         return;
 
-    $url = parse_url(get_field('video_url', $post_id, false));
+    if (get_post_type($post_id) != 'post' || $terms[0]->slug != 'video')
+        return;
+
+    $url = parse_url(get_field('embed_url', $post_id, false));
     $host = '';
     $id = '';
 
@@ -97,6 +104,7 @@ add_action('acf/save_post', function ($post_id) {
 
     if (!empty($host) && !empty($id))
         getVideoLength($post_id, $host, $id);
+
 });
 
 // Make JavaScript Asynchronous in Wordpress
@@ -206,3 +214,17 @@ function clear_cf_cache()
   unset($json, $obj);
 }
 add_action('acf/save_post', 'clear_cf_cache');
+
+
+// Remover privilégio dos editores para adicionar termos
+function restringir_adicionar_termos_editores( $caps, $cap, $user_id ) {
+    if ( 'manage_categories' === $cap ) {
+        $user = get_userdata( $user_id );
+        if ( in_array( 'editor', (array) $user->roles ) ) {
+            $caps = array( 'do_not_allow' );
+        }
+    }
+
+    return $caps;
+}
+add_filter( 'map_meta_cap', 'restringir_adicionar_termos_editores', 10, 3 );

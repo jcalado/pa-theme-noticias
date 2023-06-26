@@ -13,11 +13,13 @@
 				<section class="col-12 col-md-8">
 
 					@php
-						if(get_query_var('paged') < 1 && $queryFeatured->found_posts > 0):
-						get_template_part('template-parts/global/feature', 'feature', [
-							'post' => $queryFeatured->posts[0],
-							'tag'  => $format = get_post_format($queryFeatured->posts[0]) ? : __('News', 'iasd'),
-						]); 
+						if(!empty($queryFeatured->found_posts)):
+							if(get_query_var('paged') < 1 && $queryFeatured->found_posts > 0):
+							get_template_part('template-parts/global/feature', 'feature', [
+								'post' => $queryFeatured->posts[0],
+								'tag'  => $format = get_post_format($queryFeatured->posts[0]) ? : __('News', 'iasd'),
+							]); 
+							endif;
 						endif;
 					@endphp
 					
@@ -34,11 +36,12 @@
 					<div class="pa-blog-itens my-5">
 						@php
 							foreach($wp_query->posts as $post):
-							get_template_part('template-parts/global/card-post', 'card-post', [
-								'post'     => $post,
-								'category' => $categories = get_the_category($post->ID) ? $categories[0]->name : '',
-								'format'   => get_post_format($post) ? : __('News', 'iasd'),
-							]); 
+								$categories = get_the_category($post->ID);
+								get_template_part('template-parts/global/card-post', 'card-post', [
+									'post'     => $post,
+									'category' => !empty($categories) ? $categories[0]->name : '',
+									'format'   => get_post_format($post) ? : __('News', 'iasd'),
+								]); 
 							endforeach; 
 						@endphp
 					</div>

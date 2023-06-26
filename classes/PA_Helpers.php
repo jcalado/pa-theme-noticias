@@ -33,7 +33,7 @@ function getVideoLength(int $post_id, string $video_host, string $video_id): voi
     $obj = json_decode($json);
 
     if (!empty($obj))
-        update_field('video_length', $obj->time, $post_id);
+        update_field('embed_length', $obj->time, $post_id);
 }
 
 /**
@@ -62,7 +62,7 @@ function getPostFormat($post_id)
  */
 function getPostEditorial($post_id)
 {
-    if ($term = get_the_terms($post_id, 'xtt-pa-editorias'))
+    if (!is_wp_error($term = get_the_terms($post_id, 'xtt-pa-editorias')))
         return $term[0];
 
     return null;
@@ -76,7 +76,7 @@ function getPostEditorial($post_id)
  */
 function getPostRegion($post_id)
 {
-    if ($term = get_the_terms($post_id, 'xtt-pa-regiao'))
+    if (!is_wp_error($term = get_the_terms($post_id, 'xtt-pa-regiao')))
         return $term[0];
 
     return null;
@@ -131,14 +131,21 @@ function getHeaderTitle($post_id = NULL)
     if (is_page())
         return the_title();
 
-    if (is_archive() && is_author() || getPostFormat(get_the_ID())->slug == 'coluna') //is archive
-        return __('Column', 'iasd') . ' | ' . (is_author() ? get_queried_object()->display_name : get_the_author_meta('display_name'));
-
+    $format = getPostFormat(get_the_ID());
+    if(!empty($format)){
+        if (is_archive() && is_author() || $format->slug == 'coluna') //is archive
+            return __('Column', 'iasd') . ' | ' . (is_author() ? get_queried_object()->display_name : get_the_author_meta('display_name'));
+    }
     if (is_tax('xtt-pa-press-type'))
         return __('Press room', 'iasd') . ' | ' . get_queried_object()->name;
 
-    if (is_singular('post')) //is single
-        return getPostEditorial($post_id)->name;
+    if (is_singular('post')){ //is single
+            $nameEditorial = getPostEditorial($post_id);
+            // Caso a editoria retorna vazio, útil para noticias antigas onde não era obrigatório marcar uma editória.
+            if(!empty($nameEditorial)){
+                return getPostEditorial($post_id)->name;
+            }
+        }    
 
     if (is_archive()) //is archive
         return get_taxonomy(get_queried_object()->taxonomy)->label . ' | ' . get_queried_object()->name;

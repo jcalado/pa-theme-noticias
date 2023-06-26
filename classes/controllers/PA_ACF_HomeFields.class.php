@@ -1,10 +1,10 @@
 <?php
 
-use Extended\LocalData;
-use WordPlate\Acf\Location;
-use WordPlate\Acf\ConditionalLogic;
-use WordPlate\Acf\Fields\ButtonGroup;
-use WordPlate\Acf\Fields\Taxonomy;
+use ExtendedLocal\LocalData;
+use Extended\ACF\Location;
+use Extended\ACF\ConditionalLogic;
+use Extended\ACF\Fields\ButtonGroup;
+use Extended\ACF\Fields\Taxonomy;
 
 class PaAcfHomeFields
 {
@@ -45,7 +45,7 @@ class PaAcfHomeFields
                     ->limitFilter(false)
             ],
             'location' => [
-                Location::if('page_template', $template),
+                Location::where('page_template', '==', $template),
             ]
         ]);
     }
@@ -64,7 +64,7 @@ class PaAcfHomeFields
                     ->returnFormat('object')
             ],
             'location' => [
-                Location::if('page_template', 'page-front-page.blade.php'),
+                Location::where('page_template', '==', 'page-front-page.blade.php'),
             ]
         ]);
     }

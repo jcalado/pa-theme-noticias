@@ -1,10 +1,10 @@
 <?php
 
-use WordPlate\Acf\Fields\Number;
-use WordPlate\Acf\Fields\Oembed;
-use WordPlate\Acf\Fields\Text;
-use WordPlate\Acf\Location;
-use WordPlate\Acf\Fields\File;
+use Extended\ACF\Fields\Number;
+use Extended\ACF\Fields\Oembed;
+use Extended\ACF\Fields\Text;
+use Extended\ACF\Location;
+use Extended\ACF\Fields\File;
 
 class PaAcfPostFields {
 
@@ -24,7 +24,7 @@ class PaAcfPostFields {
                     ->readOnly(),
             ],
             'location' => [
-                Location::if('post_type', 'post'),
+                Location::where('post_type','==', 'post'),
             ]
         ]);
 
@@ -36,7 +36,7 @@ class PaAcfPostFields {
                 Text::make(__('Author', 'iasd'), 'custom_author'),
             ],
             'location'   => [
-                Location::if('post_type', 'post'),
+                Location::where('post_type', '==', 'post'),
             ]
         ]);
     }
