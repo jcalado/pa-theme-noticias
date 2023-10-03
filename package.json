@@ -41,7 +41,7 @@
   },
   "dependencies": {
     "slim-js": "5.0.9",
-    "yt-player": "git+https://81664fad6241aaa07201f36a990000ef4baa6807:x-oauth-basic@github.com/studiovisual/yt-player.git"
+    "yt-player": "git+https://github.com/webdsa/yt-player.git"
   },
   "browserslist": [
     "chrome 79"
