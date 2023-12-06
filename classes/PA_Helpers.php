@@ -132,20 +132,21 @@ function getHeaderTitle($post_id = NULL)
         return the_title();
 
     $format = getPostFormat(get_the_ID());
-    if(!empty($format)){
+    if (!empty($format)) {
         if (is_archive() && is_author() || $format->slug == 'coluna') //is archive
             return __('Column', 'iasd') . ' | ' . (is_author() ? get_queried_object()->display_name : get_the_author_meta('display_name'));
     }
-    if (is_tax('xtt-pa-press-type'))
-        return __('Press room', 'iasd') . ' | ' . get_queried_object()->name;
 
-    if (is_singular('post')){ //is single
-            $nameEditorial = getPostEditorial($post_id);
-            // Caso a editoria retorna vazio, útil para noticias antigas onde não era obrigatório marcar uma editória.
-            if(!empty($nameEditorial)){
-                return getPostEditorial($post_id)->name;
-            }
-        }    
+    if (get_post_type(get_the_ID()) == 'press')
+        return __('Press room', 'iasd') . ' | ' . getPostFormat(get_the_ID())->name;
+
+    if (is_singular('post')) { //is single
+        $nameEditorial = getPostEditorial($post_id);
+        // Caso a editoria retorna vazio, útil para noticias antigas onde não era obrigatório marcar uma editória.
+        if (!empty($nameEditorial)) {
+            return getPostEditorial($post_id)->name;
+        }
+    }
 
     if (is_archive()) //is archive
         return get_taxonomy(get_queried_object()->taxonomy)->label . ' | ' . get_queried_object()->name;
