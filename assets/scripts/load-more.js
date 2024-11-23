@@ -1,7 +1,8 @@
 import './card-author';
 import './card-post';
 
-class LoadMore extends window.Slim {
+
+class LoadMore extends Slim {
 
   constructor() {
     super();

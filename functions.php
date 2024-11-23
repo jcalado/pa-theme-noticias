@@ -9,7 +9,7 @@ define('THEME_DIR', get_stylesheet_directory() . '/');
 define('THEME_CSS', THEME_URI . 'assets/css/');
 define('THEME_JS', THEME_URI . 'assets/js/');
 define('THEME_IMGS', THEME_URI . 'assets/images/');
-define('ACF_TO_REST_API_REQUEST_VERSION', 2 );
+define('ACF_TO_REST_API_REQUEST_VERSION', 2);
 
 
 $ChildBlocks = new \Blocks\ChildBlocks;
@@ -22,8 +22,9 @@ require_once(dirname(__FILE__) . '/classes/controllers/PA_RewriteRules.class.php
 require_once(dirname(__FILE__) . '/classes/controllers/PA_Util.class.php');
 require_once(dirname(__FILE__) . '/classes/controllers/PA_wp_rest_columnists_controller.class.php');
 require_once(dirname(__FILE__) . '/classes/PA_Helpers.php');
+require_once(dirname(__FILE__) . '/classes/PA_Theme_Handler.php');
 
-add_action('after_setup_theme', array( 'ACF_To_REST_API', 'init' ) );
+add_action('after_setup_theme', array('ACF_To_REST_API', 'init'));
 
 
 // CORE INSTALL
@@ -71,10 +72,16 @@ add_filter('template_include', function ($template) {
  * Filter save post to get video length
  */
 add_action('acf/save_post', function ($post_id) {
-    if (get_post_type($post_id) != 'post')
+
+    $terms = get_the_terms(get_the_ID(), 'xtt-pa-format');
+
+    if (empty($terms))
         return;
 
-    $url = parse_url(get_field('video_url', $post_id, false));
+    if (get_post_type($post_id) != 'post' || $terms[0]->slug != 'video')
+        return;
+
+    $url = parse_url(get_field('embed_url', $post_id, false));
     $host = '';
     $id = '';
 
@@ -199,10 +206,49 @@ function prefix_title_entity_decode($response)
 function clear_cf_cache()
 {
 
-  //RESET CF CACHE
-  $url = "https://" . API_PA . "/clear-cache?zone=adventistas.dev";
-  $json = file_get_contents($url);
-  $obj = json_decode($json);
-  unset($json, $obj);
+    //RESET CF CACHE
+    $url = "https://" . API_PA . "/clear-cache?zone=adventistas.dev";
+    $json = file_get_contents($url);
+    $obj = json_decode($json);
+    unset($json, $obj);
 }
 add_action('acf/save_post', 'clear_cf_cache');
+
+
+// Remover privilégio dos editores para adicionar termos
+function restringir_adicionar_termos_editores($caps, $cap, $user_id)
+{
+    if ('manage_categories' === $cap) {
+        $user = get_userdata($user_id);
+        if (in_array('editor', (array) $user->roles)) {
+            $caps = array('do_not_allow');
+        }
+    }
+
+    return $caps;
+}
+add_filter('map_meta_cap', 'restringir_adicionar_termos_editores', 10, 3);
+
+/**
+ * Ajusta o limite do tamanho da imagem para 8000 pixels no WordPress.
+ *
+ * O WordPress introduziu um novo recurso a partir da versão 5.3 que impede 
+ * o upload de imagens com mais de 2560 pixels (altura ou largura). 
+ * O objetivo é evitar o uso de imagens muito grandes que possam impactar 
+ * a performance do site. No entanto, em alguns casos, pode ser necessário 
+ * ajustar este limite. A função `adjust_big_image_size_threshold` tem este propósito.
+ *
+ * @param int   $threshold  O limite padrão de tamanho da imagem em pixels (altura ou largura).
+ *                          Padrão é 2560.
+ * @param array $imagesize  Um array contendo a largura e altura da imagem em pixels.
+ * @param mixed $file       O caminho para o arquivo da imagem sendo processada.
+ *
+ * @return int  Novo limite para o tamanho da imagem.
+ */
+function adjust_big_image_size_threshold($threshold, $imagesize, $file)
+{
+    // Ajusta o limite para 8000 pixels
+    return 8000;
+}
+
+add_filter('big_image_size_threshold', 'adjust_big_image_size_threshold', 10, 3);

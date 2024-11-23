@@ -19,11 +19,17 @@ class CardPost extends window.Slim {
       "[&hellip;]",
       ""
     );
+
+    this.post.title.rendered = this.post.title.rendered.replace(
+      /(<([^>]+)>)/gi,
+      ""
+    );
+
   }
 
   formartToLowerCase() {
     this.post.terms.formatLowerCase = this.post.terms.format.toLowerCase().normalize('NFD').replace(/[^a-z]/g, '');
-    console.log(this.post);
+   // console.log(this.post);
   }
 }
 

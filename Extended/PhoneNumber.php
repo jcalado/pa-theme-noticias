@@ -1,23 +1,22 @@
 <?php
 
-namespace Extended;
+namespace ExtendedLocal;
 
-use WordPlate\Acf\Fields\Field;
-use WordPlate\Acf\Fields\Attributes\ConditionalLogic;
-use WordPlate\Acf\Fields\Attributes\Instructions;
-use WordPlate\Acf\Fields\Attributes\Required;
-use WordPlate\Acf\Fields\Attributes\Wrapper;
-
+use Extended\ACF\Fields\Field;
+use Extended\ACF\ConditionalLogic;
+use Extended\ACF\Fields\Settings\Instructions;
+use Extended\ACF\Fields\Settings\Required;
+use Extended\ACF\Fields\Settings\Wrapper;
 /**
  * Register new Phone Number field
  */
 class PhoneNumber extends Field {
 
-    use ConditionalLogic;
+
     use Instructions;
     use Wrapper;
-	use Required;
+    use Required;
 
-    protected $type = 'phone_number';
+    protected null|string $type = 'phone_number';
 
 }

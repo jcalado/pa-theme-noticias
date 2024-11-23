@@ -1,10 +1,10 @@
 <?php
 
-use WordPlate\Acf\Location;
-use WordPlate\Acf\Fields\Image;
-use WordPlate\Acf\Fields\Text;
-use WordPlate\Acf\Fields\Textarea;
-use WordPlate\Acf\Fields\Url;
+use Extended\ACF\Location;
+use Extended\ACF\Fields\Image;
+use Extended\ACF\Fields\Text;
+use Extended\ACF\Fields\Textarea;
+use Extended\ACF\Fields\Url;
 
 class PaAcfUserFields {
 
@@ -25,7 +25,7 @@ class PaAcfUserFields {
                 Url::make('Instagram URL', 'instagram'),
             ],
             'location' => [
-                Location::if('user_form', 'edit')->and('user_role', 'colunista'),
+                Location::where('user_form', 'edit')->and('user_role', 'colunista'),
             ]
         ]);
 
@@ -39,7 +39,7 @@ class PaAcfUserFields {
                     ->required(),
             ],
             'location' => [
-                Location::if('user_form', 'edit')->and('user_role', 'colunista')->and('user_role', '!=', 'administrator'),
+                Location::where('user_form', 'edit')->and('user_role', 'colunista')->and('user_role', '!=', 'administrator'),
             ]
         ]);
     }

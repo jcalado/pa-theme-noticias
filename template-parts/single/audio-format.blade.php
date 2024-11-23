@@ -11,7 +11,7 @@
 
 <div class="row d-flex dark-content-bg pb-3 mb-4">
     <div class="col-md-6 col-12">
-        @include('components.metas.author', get_the_ID())
+        @include('components.metas.author', array( 'id' => get_the_ID()))
     </div>
     <div class="col-md-6 col-12 post-meta-date">
         @include('components.metas.meta')

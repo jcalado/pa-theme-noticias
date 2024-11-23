@@ -4,8 +4,8 @@ namespace Blocks\PAListColumnists;
 
 use Blocks\Block;
 use Fields\MoreContent;
-use WordPlate\Acf\Fields\Number;
-use WordPlate\Acf\Fields\Text;
+use Extended\ACF\Fields\Number;
+use Extended\ACF\Fields\Text;
 
 /**
  * Class PAListColumnists
