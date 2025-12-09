@@ -30,9 +30,10 @@ add_action('after_setup_theme', array('ACF_To_REST_API', 'init'));
 // CORE INSTALL
 require_once(dirname(__FILE__) . '/core/PA_Theme_Noticias_Install.php');
 
-add_action('after_setup_theme', function () {
-    load_child_theme_textdomain('iasd', THEME_DIR . 'language/');
-}, 9);
+// Load child theme translations at 'init' to merge with parent's translations
+add_action('init', function () {
+    load_textdomain('iasd', get_stylesheet_directory() . '/language/' . determine_locale() . '.mo');
+}, 1);
 
 
 /**
