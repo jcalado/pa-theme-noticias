@@ -32,7 +32,7 @@ class PAListPress extends Block {
 	protected function setFields(): array {
 		return array_merge(
 			[
-				Text::make(__('Title', 'title'))
+				Text::make(__('Title', 'iasd'))
 					->defaultValue(__('IASD - List press', 'iasd')),
 
 				LocalData::make('Posts', 'items')
