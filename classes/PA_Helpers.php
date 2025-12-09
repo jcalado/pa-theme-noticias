@@ -62,7 +62,9 @@ function getPostFormat($post_id)
  */
 function getPostEditorial($post_id)
 {
-    if (!is_wp_error($term = get_the_terms($post_id, 'xtt-pa-editorias')))
+    $term = get_the_terms($post_id, 'xtt-pa-editorias');
+
+    if (!empty($term) && !is_wp_error($term))
         return $term[0];
 
     return null;
@@ -76,7 +78,9 @@ function getPostEditorial($post_id)
  */
 function getPostRegion($post_id)
 {
-    if (!is_wp_error($term = get_the_terms($post_id, 'xtt-pa-regiao')))
+    $term = get_the_terms($post_id, 'xtt-pa-regiao');
+
+    if (!empty($term) && !is_wp_error($term))
         return $term[0];
 
     return null;
