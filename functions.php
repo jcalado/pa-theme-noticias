@@ -31,7 +31,7 @@ add_action('after_setup_theme', array('ACF_To_REST_API', 'init'));
 require_once(dirname(__FILE__) . '/core/PA_Theme_Noticias_Install.php');
 
 add_action('after_setup_theme', function () {
-    load_theme_textdomain('iasd', THEME_DIR . 'language/');
+    load_child_theme_textdomain('iasd', THEME_DIR . 'language/');
 }, 9);
 
 
