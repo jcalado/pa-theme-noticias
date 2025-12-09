@@ -18,7 +18,7 @@ class PA_Enqueue_Files
 			array(
 				'url'   	=> get_rest_url(null, 'wp/v2/'),
 				'nonce' 	=> wp_create_nonce('wp_rest'),
-				'site_path' => get_current_site()->path,
+				'site_path' => parse_url(home_url(), PHP_URL_PATH) ?: '/',
 			)
 		);
 	}
