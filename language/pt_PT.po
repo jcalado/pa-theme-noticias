@@ -169,7 +169,7 @@ msgstr "Excerto da Coluna"
 #: classes/controllers/PA_RewriteRules.class.php:119
 #: core/PA_Theme_Noticias_Install.php:57
 msgid "press-room-slug"
-msgstr "comunicado"
+msgstr "imprensa"
 
 #: classes/controllers/PA_RewriteRules.class.php:61
 #: classes/controllers/PA_RewriteRules.class.php:108
